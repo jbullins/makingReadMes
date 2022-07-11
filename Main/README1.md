@@ -1,15 +1,15 @@
-# I don't Know
+# Making Readmes
 
   ## Description:
-  It's a fun but slightly stupid app
+  A readme generator
   ## Installation:
-  Google Chrome
+  any way i can
   ## Usage:
-  With a cold beer in hand
+  on the computer
   ## License:
-  None
+  
   ## Contribution:
-  they should not, waste of time
+  No they should not, its not worthy
   ## Testing:
   undefined
   ## Additional Info:
