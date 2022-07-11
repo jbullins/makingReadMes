@@ -1,8 +1,9 @@
 const inquirer = require("inquirer");
 const generateMarkdown = require("./utils/generateMarkdown");
 const fs = require('fs');
+const util = require('util');
 
-// TODO: Create an array of questions for user input
+// Array of Questions
 const questions = [
     // Project Name
     {
@@ -90,7 +91,7 @@ const questions = [
     },
      // License Options
      {
-        type: 'input',
+        type: 'checkbox',
         name: 'licensing',
         message: 'Choose a license for you project ',
         choices: ['Apache', 'MIT', 'GNU-General-Public', 'Common-Development-and-Distribution', 'None'],
@@ -127,23 +128,28 @@ const questions = [
 
 // Function to write README file
 function writeToFile(fileName, data) {
-    fs.writeToFile(fileName, data, (err) => {
-        if (err)
-            throw err;
-        console.log('Success! Information transferred to README!')
+    fs.writeFile(fileName, data, error => {
+        if (error){
+        console.log('Sorry there was an error : ' + error);
+        }
     });
 };
 
-// TODO: Create a function to initialize app
-function init() {}
+const createReadMe = util.promisify(writeToFile);
 
-// Function call to initialize app
-function init(){
-    inquirer.prompt(questions)
-    .then(function (userInput){
-        console.log(userInput)
-        writeToFile("README.md", generateMarkdown(userInput));
-    });
+async function init() {
+  try {
+    const answers = await inquirer.prompt(questions);
+    console.log('Thank you! The current data is being processed into your README.md: ', answers);
+    // get markdown template from generateMarkdown.js passing the answers as parameter
+    const myMarkdown = generateMarkdown(answers);
+    console.log(myMarkdown);
+    //write the readme file after the markdown is made
+    await createReadMe('README1.md', myMarkdown);
+    
+  } catch (error) {
+    console.log('Sorry there was an error.' + error);
+  }
 };
 
 init();
